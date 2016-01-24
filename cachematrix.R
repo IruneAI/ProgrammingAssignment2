@@ -36,13 +36,14 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
   # Return a matrix that is the inverse of 'x'
   inv <- x$getinverse()
+  # Get matrix
+  mat<- x$get()
   #check wether the matrix has already been calculated 
-  if(!is.null(inv)) {
+  # and original matrix has not been changed using set() function
+  if(!is.null(inv) && identical(inv %*% mat , diag(dim(mat)[1])) ) {
     message("getting cached inverse matrix")
     return(inv)
   }
-  #else get the matrix
-  mat<- x$get()
   #calculate the inverse of the matrix
   inv <- solve(mat, ...)
   x$setinverse(inv)
